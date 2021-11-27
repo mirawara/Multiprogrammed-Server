@@ -21,16 +21,16 @@ module Server
        double p1;
        double p2;
    gates:
-       input fromClients;
-       input fromWebServer;
-       output toClients;
-       output toWebServer;
+       input from_clients;
+       input from_web_server;
+       output to_clients;
+       output to_web_server;
    submodules:
        processor: Processor;
        disk: Disk;
    connections:
-      	fromClients --> processor.fromClients;
-      	fromWebServer --> processor.fromWebServer;
-      	processor.toClients --> toClients;
-      	processor.toWebServer --> toWebServer;
+      	from_clients --> processor.from_clients;
+      	from_web_server --> processor.from_web_server;
+      	processor.to_clients --> to_clients;
+      	processor.to_web_server --> to_web_server;
 }
