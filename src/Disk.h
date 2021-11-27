@@ -13,24 +13,26 @@
 // along with this program.  If not, see http://www.gnu.org/licenses/.
 // 
 
-#include "WebServer.h"
+#ifndef __NCLIENTS_SERVER_SIM_DISK_H_
+#define __NCLIENTS_SERVER_SIM_DISK_H_
 
-Define_Module(WebServer);
+#include <omnetpp.h>
+#include <queue>
 
-void WebServer::initialize()
+using namespace omnetpp;
+using namespace std;
+
+/**
+ * TODO - Generated class
+ */
+class Disk : public cSimpleModule
 {
-    serv_rate_w_=par("serv_rate_w").doubleValue();
-}
+  private:
+    double serv_rate_disk_;
+    queue<cMessage*> queue_;
+  protected:
+    virtual void initialize();
+    virtual void handleMessage(cMessage *msg);
+};
 
-void WebServer::handleMessage(cMessage *msg)
-{
-    if(msg->isSelfMessage()){
-        send(msg, "web_out");
-    }else{
-        queue_.push(msg);
-    }
-    cMessage* next=queue_.front();
-    double proc_time=1/exponential(serv_rate_w_);
-    scheduleAt( simTime()+proc_time, next);
-    queue_.pop();
-}
+#endif

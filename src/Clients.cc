@@ -21,14 +21,14 @@ void Clients::initialize()
 {
     num_clients_=par("num_clients").intValue();
     num_trans_s_=registerSignal("num_trans_s");
-    for(int i=0; i<num_clients;i++){
+    for(int i=0; i<num_clients_;i++){
             cMessage * msg=new cMessage("Request");
-            send(msg,out_client, i);
+            send(msg, "out_client", i);
     }
 }
 
 void Clients::handleMessage(cMessage *msg)
 {
-    emit(num_trans_s,1);
-    send(msg,out_client,msg->getArrivalGate()->getIndex());
+    emit(num_trans_s_,1);
+    send(msg,"out_client",msg->getArrivalGate()->getIndex());
 }

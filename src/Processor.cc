@@ -13,24 +13,16 @@
 // along with this program.  If not, see http://www.gnu.org/licenses/.
 // 
 
-#include "WebServer.h"
+#include "Processor.h"
 
-Define_Module(WebServer);
+Define_Module(Processor);
 
-void WebServer::initialize()
+void Processor::initialize()
 {
-    serv_rate_w_=par("serv_rate_w").doubleValue();
+    // TODO - Generated method body
 }
 
-void WebServer::handleMessage(cMessage *msg)
+void Processor::handleMessage(cMessage *msg)
 {
-    if(msg->isSelfMessage()){
-        send(msg, "web_out");
-    }else{
-        queue_.push(msg);
-    }
-    cMessage* next=queue_.front();
-    double proc_time=1/exponential(serv_rate_w_);
-    scheduleAt( simTime()+proc_time, next);
-    queue_.pop();
+    // TODO - Generated method body
 }

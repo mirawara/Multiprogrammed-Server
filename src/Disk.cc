@@ -13,24 +13,26 @@
 // along with this program.  If not, see http://www.gnu.org/licenses/.
 // 
 
-#include "WebServer.h"
+#include "Disk.h"
 
-Define_Module(WebServer);
+using namespace std;
 
-void WebServer::initialize()
+Define_Module(Disk);
+
+void Disk::initialize()
 {
-    serv_rate_w_=par("serv_rate_w").doubleValue();
+    serv_rate_disk_ = par("service_rate");
 }
 
-void WebServer::handleMessage(cMessage *msg)
+void Disk::handleMessage(cMessage *msg)
 {
     if(msg->isSelfMessage()){
-        send(msg, "web_out");
+        send(msg, "to_processor");
     }else{
         queue_.push(msg);
     }
     cMessage* next=queue_.front();
-    double proc_time=1/exponential(serv_rate_w_);
+    double proc_time=1/exponential(serv_rate_disk_);
     scheduleAt( simTime()+proc_time, next);
     queue_.pop();
 }

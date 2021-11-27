@@ -13,24 +13,20 @@
 // along with this program.  If not, see http://www.gnu.org/licenses/.
 // 
 
-#include "WebServer.h"
+package nclients_server_sim;
 
-Define_Module(WebServer);
-
-void WebServer::initialize()
+//
+// TODO auto-generated module
+//
+simple Processor
 {
-    serv_rate_w_=par("serv_rate_w").doubleValue();
-}
-
-void WebServer::handleMessage(cMessage *msg)
-{
-    if(msg->isSelfMessage()){
-        send(msg, "web_out");
-    }else{
-        queue_.push(msg);
-    }
-    cMessage* next=queue_.front();
-    double proc_time=1/exponential(serv_rate_w_);
-    scheduleAt( simTime()+proc_time, next);
-    queue_.pop();
+    parameters:
+        double serviceRate @unit(Hz);
+    gates:
+        input fromClients;
+        input fromDisk;
+        input fromWebServer;
+        output toClients;
+        output toDisk;
+        output toWebServer;
 }

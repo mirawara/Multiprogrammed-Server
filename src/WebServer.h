@@ -20,15 +20,17 @@
 #include <queue>
 
 using namespace omnetpp;
+using namespace std;
 
 /**
  * TODO - Generated class
  */
 class WebServer : public cSimpleModule
 {
-  protected:
+  private:
     double serv_rate_w_;
-    queue queue_;
+    queue<cMessage*> queue_;
+  protected:
     virtual void initialize();
     virtual void handleMessage(cMessage *msg);
 };
