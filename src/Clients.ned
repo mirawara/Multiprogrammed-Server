@@ -22,9 +22,9 @@ simple Clients
 {
     parameters:
         int num_clients=defualt(1);
-        //@signal[Resp_Time_s];
-        //@statistic[Resp_Time](source="Resp_Time_s"; record=mean, vector);
+        @signal[num_trans_s];
+        @statistic[num_trans](source="num_trans_s"; record=sum, vector);
     gates:
-        input client_in[];
-        output client_out[];
+        input client_in;
+        output client_out;
 }
