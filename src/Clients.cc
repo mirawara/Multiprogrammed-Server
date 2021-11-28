@@ -15,20 +15,32 @@
 
 #include "Clients.h"
 
+using namespace std;
+
 Define_Module(Clients);
 
 void Clients::initialize()
 {
     num_clients_=par("num_clients").intValue();
-    num_trans_s_=registerSignal("num_trans_s");
+    last_request_time = new simtime_t[num_clients_];
+    service_rate_=registerSignal("service_rate");
     for(int i=0; i<num_clients_;i++){
-            cMessage * msg=new cMessage("Request");
-            send(msg, "out_client");
+            last_request_time[i] = 0;
+            char i_ = i+'0';
+            char* id_client = &i_;
+            EV << *id_client << endl;
+            cMessage* msg=new cMessage();
+            msg->setName(id_client);
+            send(msg, "client_out");
     }
 }
 
 void Clients::handleMessage(cMessage *msg)
 {
-    emit(num_trans_s_,1);
-    send(msg,"out_client",msg);
+    int client_id = atoi(msg->getName());
+    simtime_t service_time = simTime() - last_request_time[client_id];
+    emit(service_rate_,1/service_time);
+    EV << 1/service_time << endl;
+    last_request_time[client_id] = simTime();
+    send(msg,"client_out");
 }

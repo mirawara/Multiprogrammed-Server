@@ -17,20 +17,22 @@ package nclients_server_sim;
 
 module Server
 {
-   parameters:
-       double p1;
-       double p2;
-   gates:
-       input from_clients;
-       input from_web_server;
-       output to_clients;
-       output to_web_server;
-   submodules:
-       processor: Processor;
-       disk: Disk;
-   connections:
-      	from_clients --> processor.from_clients;
-      	from_web_server --> processor.from_web_server;
-      	processor.to_clients --> to_clients;
-      	processor.to_web_server --> to_web_server;
+    parameters:
+        double p1;
+        double p2;
+    gates:
+        input from_clients;
+        input from_web_server;
+        output to_clients;
+        output to_web_server;
+    submodules:
+        processor: Processor;
+        disk: Disk;
+    connections:
+        from_clients --> processor.from_clients;
+        from_web_server --> processor.from_web_server;
+        processor.to_clients --> to_clients;
+        processor.to_web_server --> to_web_server;
+        processor.to_disk --> disk.from_processor;
+        disk.to_processor --> processor.from_disk;
 }

@@ -25,9 +25,11 @@ using namespace omnetpp;
  */
 class Clients : public cSimpleModule
 {
+private:
+    simtime_t* last_request_time;
   protected:
     int num_clients_;
-    simsignal_t num_trans_s_;
+    simsignal_t service_rate_;
     virtual void initialize();
     virtual void handleMessage(cMessage *msg);
 };

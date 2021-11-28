@@ -13,18 +13,28 @@
 // along with this program.  If not, see http://www.gnu.org/licenses/.
 // 
 
-package nclients_server_sim;
+package nclients_server_sim.simulations;
 
-//
-// TODO auto-generated module
-//
-simple Clients
+import nclients_server_sim.Clients;
+import nclients_server_sim.Server;
+import nclients_server_sim.WebServer;
+
+
+network Network
 {
-    parameters:
-        int num_clients=default(1);
-        @signal[service_rate];
-        @statistic[throughput](source="service_rate"; record=mean, vector);
-    gates:
-        input client_in;
-        output client_out;
+    submodules:
+        clients: Clients {
+            @display("p=64,49");
+        }
+        server: Server {
+            @display("p=148,49");
+        }
+        webServer: WebServer {
+            @display("p=227,49");
+        }
+    connections:
+        clients.client_out --> server.from_clients;
+        server.to_clients --> clients.client_in;
+        server.to_web_server --> webServer.web_in;
+        webServer.web_out --> server.from_web_server;
 }

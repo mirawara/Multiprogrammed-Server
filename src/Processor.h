@@ -17,14 +17,21 @@
 #define __NCLIENTS_SERVER_SIM_PROCESSOR_H_
 
 #include <omnetpp.h>
+#include <queue>
 
 using namespace omnetpp;
-
+using namespace std;
 /**
  * TODO - Generated class
  */
 class Processor : public cSimpleModule
 {
+  private:
+    double service_rate_processor_;
+    double p1;
+    double p2;
+    double p3;
+    queue<cMessage*> queue_;
   protected:
     virtual void initialize();
     virtual void handleMessage(cMessage *msg);

@@ -31,8 +31,11 @@ void Disk::handleMessage(cMessage *msg)
     }else{
         queue_.push(msg);
     }
-    cMessage* next=queue_.front();
-    double proc_time=1/exponential(serv_rate_disk_);
-    scheduleAt( simTime()+proc_time, next);
-    queue_.pop();
+    if (!queue_.empty())
+    {
+        cMessage* next_msg = queue_.front();
+        queue_.pop();
+        scheduleAt(simTime() + 1/exponential(serv_rate_disk_), next_msg);
+    }
+
 }
