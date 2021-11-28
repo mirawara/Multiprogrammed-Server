@@ -23,12 +23,12 @@ void Clients::initialize()
     num_trans_s_=registerSignal("num_trans_s");
     for(int i=0; i<num_clients_;i++){
             cMessage * msg=new cMessage("Request");
-            send(msg, "out_client", i);
+            send(msg, "out_client");
     }
 }
 
 void Clients::handleMessage(cMessage *msg)
 {
     emit(num_trans_s_,1);
-    send(msg,"out_client",msg->getArrivalGate()->getIndex());
+    send(msg,"out_client",msg);
 }

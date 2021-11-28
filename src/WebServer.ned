@@ -21,7 +21,7 @@ package nclients_server_sim;
 simple WebServer
 {
     parameters:
-        double serv_rate_w=default(1);
+        double serv_rate_w @unit(Hz)=default(1Hz);
     gates:
         input web_in;
         output web_out;
