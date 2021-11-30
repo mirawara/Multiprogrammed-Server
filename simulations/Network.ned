@@ -1,17 +1,3 @@
-//
-// This program is free software: you can redistribute it and/or modify
-// it under the terms of the GNU Lesser General Public License as published by
-// the Free Software Foundation, either version 3 of the License, or
-// (at your option) any later version.
-// 
-// This program is distributed in the hope that it will be useful,
-// but WITHOUT ANY WARRANTY; without even the implied warranty of
-// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-// GNU Lesser General Public License for more details.
-// 
-// You should have received a copy of the GNU Lesser General Public License
-// along with this program.  If not, see http://www.gnu.org/licenses/.
-// 
 
 package nclients_server_sim.simulations;
 
@@ -19,22 +5,40 @@ import nclients_server_sim.Clients;
 import nclients_server_sim.Server;
 import nclients_server_sim.WebServer;
 
-
+//Multiprogrammed Server Network
 network Network
 {
     submodules:
+        
+        //N Clients (represented by one simple module)
         clients: Clients {
             @display("p=64,49");
         }
+        
+        //Server
         server: Server {
             @display("p=148,49");
         }
+        
+        //Web Server
         webServer: WebServer {
             @display("p=227,49");
         }
+        
     connections:
+        //Connection between the Client's output gate
+        //and the Server's input gate
         clients.client_out --> server.from_clients;
+        
+        //Connection between the Server's output gate
+        //and the Client's input gate
         server.to_clients --> clients.client_in;
+        
+        //Connection between the Server's output gate
+        //and the Web Server's input gate
         server.to_web_server --> webServer.web_in;
+        
+        //Connection between the Web Server's output gate
+        //and the Server's input gate
         webServer.web_out --> server.from_web_server;
 }

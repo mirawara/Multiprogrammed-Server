@@ -1,17 +1,3 @@
-//
-// This program is free software: you can redistribute it and/or modify
-// it under the terms of the GNU Lesser General Public License as published by
-// the Free Software Foundation, either version 3 of the License, or
-// (at your option) any later version.
-// 
-// This program is distributed in the hope that it will be useful,
-// but WITHOUT ANY WARRANTY; without even the implied warranty of
-// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-// GNU Lesser General Public License for more details.
-// 
-// You should have received a copy of the GNU Lesser General Public License
-// along with this program.  If not, see http://www.gnu.org/licenses/.
-// 
 
 #ifndef __NCLIENTS_SERVER_SIM_CLIENTS_H_
 #define __NCLIENTS_SERVER_SIM_CLIENTS_H_
@@ -20,18 +6,23 @@
 
 using namespace omnetpp;
 
-/**
- * TODO - Generated class
- */
 class Clients : public cSimpleModule
 {
 private:
-    simtime_t* last_request_time;
-  protected:
-    int num_clients_;
-    simsignal_t service_rate_;
-    virtual void initialize();
-    virtual void handleMessage(cMessage *msg);
+  //Array used to store the simulation times
+  //used to compute the response times for the
+  //complete requests for each client
+  simtime_t *last_request_time;
+
+protected:
+  //Number of Clients
+  int num_clients_;
+
+  //Signal of the service rate registration
+  simsignal_t service_rate_;
+
+  virtual void initialize();
+  virtual void handleMessage(cMessage *msg);
 };
 
 #endif
