@@ -20,6 +20,8 @@ protected:
 
   //Signal of the service rate registration
   simsignal_t service_rate_;
+  simsignal_t throughput_;
+  int count_;
 
   virtual void initialize();
   virtual void handleMessage(cMessage *msg);

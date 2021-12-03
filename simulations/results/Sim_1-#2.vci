@@ -1,20 +1,20 @@
-file 112822 1638550805                                          
+file 106251 1638550572                                          
 version 2
-run Sim_1-0-20211203-17:59:56-17644
+run Sim_1-2-20211203-17:56:12-10452
 attr configname Sim_1
-attr datetime 20211203-17:59:56
+attr datetime 20211203-17:56:12
 attr experiment Sim_1
 attr inifile omnetpp.ini
 attr iterationvars ""
 attr iterationvarsf ""
 attr measurement ""
 attr network Network
-attr processid 17644
-attr repetition 0
-attr replication #0
+attr processid 10452
+attr repetition 2
+attr replication #2
 attr resultdir results
-attr runnumber 0
-attr seedset 0
+attr runnumber 2
+attr seedset 2
 param **.server.p1 0.2
 param **.server.p2 0.5
 param **.clients.num_clients 35
@@ -26,6 +26,6 @@ vector 0 Network.clients throughput1:vector ETV
 attr source service_rate
 vector 1 Network.clients throughput:vector ETV
 attr source throughput_s
-0	703 56125 1436 27752 10.23431027098 499.654782984769 1357 0.23688316153066 52992.729980367 93761.213681463 2817082581.6444
-1	56828 55992 1436 27752 10.23431027098 499.654782984769 1357 2.7838794146747 7.2714415652233 4529.7593080909 16284.970116865
+0	703 52844 1441 26016 10.541335625218 498.392282099433 1280 0.2444919517012 1041.0135499469 43639.945529151 10047584.925778
+1	53547 52702 1441 26016 10.541335625218 498.392282099433 1280 2.6906982993593 6.8170350193967 4534.2679796652 16973.057402411
 
