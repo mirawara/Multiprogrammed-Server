@@ -1,4 +1,0 @@
-#!/bin/sh
-cd `dirname $0`
-../src/nclients_server_sim -n .:../src $*
-# for shared lib, use: opp_run -l ../src/nclients_server_sim -n .:../src $*
