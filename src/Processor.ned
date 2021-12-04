@@ -4,7 +4,7 @@ simple Processor
 {
     parameters:
         //Processor's service rate
-        double service_rate @unit(Hz)=default(1Hz);
+        double service_rate =default(1);
 
     gates:
         input from_clients;

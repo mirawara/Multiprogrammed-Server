@@ -28,6 +28,7 @@ using namespace std;
 class WebServer : public cSimpleModule
 {
   private:
+    bool idle;
     double serv_rate_w_;
     queue<cMessage*> queue_;
   protected:

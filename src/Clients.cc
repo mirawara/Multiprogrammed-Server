@@ -8,7 +8,7 @@ Define_Module(Clients);
 void Clients::initialize()
 {
 
-    count_=0;
+    count_ = 0;
     //Recover of the number of clients from Clients.ned
     num_clients_ = par("num_clients").intValue();
 
@@ -20,7 +20,7 @@ void Clients::initialize()
     //Signal of the service rate registration
     service_rate_ = registerSignal("service_rate");
 
-    throughput_=registerSignal("throughput_s");
+    throughput_ = registerSignal("throughput_s");
 
     //Sending of the N messages to the Server
     for (int i = 0; i < num_clients_; i++)
@@ -46,7 +46,7 @@ void Clients::initialize()
 
 void Clients::handleMessage(cMessage *msg)
 {
-    count_ +=1;
+    count_ += 1;
     //Conversion from char* to int in order
     //to recover the number of the client
     //used to access the array of request times
@@ -55,12 +55,10 @@ void Clients::handleMessage(cMessage *msg)
     //Calculation of the service time by the difference
     //of the actual simulation time and the sending of the request's time
     simtime_t service_time = simTime() - last_request_time[0];
-    emit(service_rate_, 1 / service_time);
-    emit(throughput_,count_/simTime());
+    //emit(service_rate_, 1/service_time);
+    emit(throughput_, count_ );
 
-    simtime_t now = simTime();
-
-    EV << now << simTime() << endl;
+    EV << count_ << endl;
 
     //Update of the request time
     last_request_time[0] = simTime();

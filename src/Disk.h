@@ -28,6 +28,7 @@ using namespace std;
 class Disk : public cSimpleModule
 {
   private:
+    bool idle;
     double serv_rate_disk_;
     queue<cMessage*> queue_;
   protected:

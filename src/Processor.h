@@ -31,6 +31,7 @@ class Processor : public cSimpleModule
     double p1;
     double p2;
     double p3;
+    bool idle;
     queue<cMessage*> queue_;
   protected:
     virtual void initialize();
