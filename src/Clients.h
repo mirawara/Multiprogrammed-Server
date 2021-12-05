@@ -1,4 +1,3 @@
-
 #ifndef __NCLIENTS_SERVER_SIM_CLIENTS_H_
 #define __NCLIENTS_SERVER_SIM_CLIENTS_H_
 
@@ -8,19 +7,18 @@ using namespace omnetpp;
 
 class Clients : public cSimpleModule
 {
-private:
-  //Array used to store the simulation times
-  //used to compute the response times for the
-  //complete requests for each client
-  simtime_t *last_request_time;
 
 protected:
+  //simtime_t *last_request_time;
+  //simsignal_t service_rate_;
+
   //Number of Clients
   int num_clients_;
 
-  //Signal of the service rate registration
-  simsignal_t service_rate_;
+  //Signal for the throughput
   simsignal_t throughput_;
+
+  //Counter for completed requests
   int count_;
 
   virtual void initialize();

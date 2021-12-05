@@ -1,10 +1,9 @@
- 
-package multiprogrammed_server;
+ package multiprogrammed_server;
 
 simple Disk
 {
-    //Service rate of the disk
     parameters:
+        //Service rate of the disk
         double service_rate @unit(Hz);
         
     gates:

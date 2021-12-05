@@ -1,9 +1,9 @@
-
 package multiprogrammed_server;
 
 simple WebServer
 {
     parameters:
+
         //Service rate of the Web Server
         double serv_rate_w @unit(Hz)=default(1Hz);
         
