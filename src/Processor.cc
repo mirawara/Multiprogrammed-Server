@@ -14,7 +14,7 @@ void Processor::initialize()
     p2_ = getParentModule()->par("p2");
 
     //Initially the processor is idle
-    idle = true;
+    idle_ = true;
 }
 
 void Processor::handleMessage(cMessage *msg)
@@ -28,11 +28,11 @@ void Processor::handleMessage(cMessage *msg)
         //the request's path
         double option = uniform(0, 1);
 
-        if (option < p1) //=> with probability p1
+        if (option < p1_) //=> with probability p1
         {
             send(msg, "to_clients");
         }
-        else if (p1 <= option && option < p1 + p2) //=> with probability p2
+        else if (p1_ <= option && option < p1_ + p2_) //=> with probability p2
         {
             send(msg, "to_disk");
         }
