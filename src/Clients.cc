@@ -12,7 +12,7 @@ void Clients::initialize()
     //Initialization of the counter
     count_ = 0;
 
-    selfMsg_=new cMessage();
+
 
     //Recover of the number of clients from Clients.ned
     num_clients_ = par("num_clients").intValue();
@@ -35,7 +35,7 @@ void Clients::initialize()
     }
 
 
-
+    cMessage *selfMsg_=new cMessage();
     scheduleAt(timeWindow_, selfMsg_);
 }
 
@@ -45,8 +45,7 @@ void Clients::handleMessage(cMessage *msg)
         emit(pkt_counter_,count_);
 
         count_=0;
-        simtime_t new_ = simTime()+timeWindow_;
-        scheduleAt(new_, msg);
+        scheduleAt(simTime()+timeWindow_, msg);
     }else{
         count_ += 1;
         send(msg, "client_out");
