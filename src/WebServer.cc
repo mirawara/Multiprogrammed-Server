@@ -49,3 +49,13 @@ void WebServer::handleMessage(cMessage *msg)
         scheduleAt(simTime() + exponential(1 / serv_rate_w_), next_msg);
     }
 }
+
+void WebServer::finish()
+{
+
+    while (queue_.size() > 0)
+    {
+        cancelAndDelete(queue_.front());
+        queue_.pop();
+    }
+}

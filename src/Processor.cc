@@ -71,3 +71,13 @@ void Processor::handleMessage(cMessage *msg)
         scheduleAt(simTime() + exponential(1 / service_rate_processor_,0), next_msg);
     }
 }
+
+void Processor::finish()
+{
+
+    while (queue_.size() > 0)
+    {
+        cancelAndDelete(queue_.front());
+        queue_.pop();
+    }
+}

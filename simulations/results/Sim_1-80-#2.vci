@@ -1,0 +1,30 @@
+file 3768942 1638630996                                         
+version 2
+run Sim_1-14-20211204-16:16:28-6236
+attr configname Sim_1
+attr datetime 20211204-16:16:28
+attr experiment Sim_1
+attr inifile omnetpp.ini
+attr iterationvars $0=80
+attr iterationvarsf 80-
+attr measurement $0=80
+attr network Network
+attr processid 6236
+attr repetition 2
+attr replication #2
+attr resultdir results
+attr runnumber 14
+attr seedset 2
+param **.server.p1 0.1
+param **.server.p2 0.5
+param **.clients.num_clients 80
+param **.processor.service_rate 100
+param **.disk.service_rate 15Hz
+param **.webServer.serv_rate_w 10Hz
+
+vector 0 Network.clients throughput1:vector ETV
+attr source service_rate
+0	635 1418386 376894 1647715 100.006387854368 439.329553782723 32768 8.6500084979876 2075403.5622227 34976578.853123 10774274240813
+0	1419021 1434597 1647722 2923773 439.332853311198 779.853365889727 32768 9.3704623088244 11111481.493828 55905801.732475 2.1983306750486e+14
+0	2853618 915322 2923866 3743743 779.874308815213 999.992158011786 20910 8.0454116061003 3578675.3890915 21145021.311128 14140569241374
+

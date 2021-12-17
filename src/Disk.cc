@@ -52,3 +52,13 @@ void Disk::handleMessage(cMessage *msg)
         scheduleAt(simTime() + exponential(1 / serv_rate_disk_), next_msg);
     }
 }
+
+void Disk::finish()
+{
+
+    while (queue_.size() > 0)
+    {
+        cancelAndDelete(queue_.front());
+        queue_.pop();
+    }
+}

@@ -1,0 +1,28 @@
+version 2
+run Sim_1-0-20211204-13:21:28-9844
+attr configname Sim_1
+attr datetime 20211204-13:21:28
+attr experiment Sim_1
+attr inifile omnetpp.ini
+attr iterationvars ""
+attr iterationvarsf ""
+attr measurement ""
+attr network Network
+attr processid 9844
+attr repetition 0
+attr replication #0
+attr resultdir results
+attr runnumber 0
+attr seedset 0
+param **.server.p1 1
+param **.server.p2 0
+param **.clients.num_clients 20
+param **.processor.service_rate 0.01
+param **.disk.service_rate 0.01Hz
+param **.webServer.serv_rate_w 0.001Hz
+
+scalar Network.clients throughput1:mean nan
+attr source service_rate
+scalar Network.clients throughput:last 8
+attr source throughput_s
+
