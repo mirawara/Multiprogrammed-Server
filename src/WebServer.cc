@@ -55,7 +55,7 @@ void WebServer::finish()
 
     while (queue_.size() > 0)
     {
-        cancelAndDelete(queue_.front());
+        delete(queue_.front());
         queue_.pop();
     }
 }
