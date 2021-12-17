@@ -17,7 +17,7 @@ void Clients::initialize()
     //Recover of the number of clients from Clients.ned
     num_clients_ = par("num_clients").intValue();
 
-    simtime_t timeWindow_ = par("timeWindow");
+    timeWindow_ = par("timeWindow");
 
     pkt_counter_ = registerSignal("pkt_counter_s");
 
@@ -43,10 +43,12 @@ void Clients::handleMessage(cMessage *msg)
 {
     if(msg->isSelfMessage()){
         emit(pkt_counter_,count_);
+
         count_=0;
+        simtime_t new_ = simTime()+timeWindow_;
+        scheduleAt(new_, msg);
     }else{
         count_ += 1;
-
         send(msg, "client_out");
     }
 }

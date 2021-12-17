@@ -31,6 +31,7 @@ void Disk::handleMessage(cMessage *msg)
         //If it isn't a self message => the request is queued
         queue_.push(msg);
         Nq_disk_=queue_.size();
+        EV << Nq_disk_<<endl;
         emit(disk_backlog_,Nq_disk_);
     }
     if (!queue_.empty() and idle_)
