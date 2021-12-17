@@ -7,11 +7,15 @@ void Processor::initialize()
     //Recover of the processor's service rate from the NED file
     service_rate_processor_ = par("service_rate");
 
+    Nq_processor_=0;
+
     //Recover of the probabilty p1 from the server compund module
     p1_ = getParentModule()->par("p1");
 
     //Recover of the probabilty p2 from the server compund module
     p2_ = getParentModule()->par("p2");
+
+    processor_backlog_=registerSignal("processor_backlog_s");
 
     //Initially the processor is idle
     idle_ = true;
@@ -26,7 +30,7 @@ void Processor::handleMessage(cMessage *msg)
 
         //Generation of the random number used to choose
         //the request's path
-        double option = uniform(0, 1);
+        double option = uniform(0, 1, 1);
 
         if (option < p1_) //=> with probability p1
         {
@@ -45,6 +49,9 @@ void Processor::handleMessage(cMessage *msg)
     {
         //If it isn't a self message => the request is queued
         queue_.push(msg);
+
+        Nq_processor_=queue_.size();
+        emit(processor_backlog_,Nq_processor_);
     }
     if (!queue_.empty() and idle_)
     {
@@ -61,6 +68,6 @@ void Processor::handleMessage(cMessage *msg)
         queue_.pop();
 
         //Exponential service rate => exponential(mean) (in Omnet++)
-        scheduleAt(simTime() + exponential(1 / service_rate_processor_), next_msg);
+        scheduleAt(simTime() + exponential(1 / service_rate_processor_,0), next_msg);
     }
 }

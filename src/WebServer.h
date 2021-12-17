@@ -20,8 +20,13 @@ protected:
   //Queue of requests
   queue<cMessage *> queue_;
 
+  simsignal_t wserver_backlog_;
+
+  int Nq_wserver_;
+
   virtual void initialize();
   virtual void handleMessage(cMessage *msg);
+
 };
 
 #endif

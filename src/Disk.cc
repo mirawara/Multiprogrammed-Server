@@ -9,6 +9,10 @@ void Disk::initialize()
     //Initially the disk is idle
     idle_ = true;
 
+    Nq_disk_=0;
+
+    disk_backlog_=registerSignal("disk_backlog_s");
+
     //Recover of the service rate from the NED file
     serv_rate_disk_ = par("service_rate");
 }
@@ -26,6 +30,8 @@ void Disk::handleMessage(cMessage *msg)
     {
         //If it isn't a self message => the request is queued
         queue_.push(msg);
+        Nq_disk_=queue_.size();
+        emit(disk_backlog_,Nq_disk_);
     }
     if (!queue_.empty() and idle_)
     {

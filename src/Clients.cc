@@ -12,10 +12,14 @@ void Clients::initialize()
     //Initialization of the counter
     count_ = 0;
 
+    selfMsg_=new cMessage();
+
     //Recover of the number of clients from Clients.ned
     num_clients_ = par("num_clients").intValue();
 
-    throughput_ = registerSignal("throughput_s");
+    simtime_t timeWindow_ = par("timeWindow");
+
+    pkt_counter_ = registerSignal("pkt_counter_s");
 
     //Sending of the N messages to the Server
     for (int i = 0; i < num_clients_; i++)
@@ -29,21 +33,20 @@ void Clients::initialize()
         //msg->setName(id_client);
         send(msg, "client_out");
     }
+
+
+
+    scheduleAt(timeWindow_, selfMsg_);
 }
 
 void Clients::handleMessage(cMessage *msg)
 {
-    //Increase of the counter
-    count_ += 1;
+    if(msg->isSelfMessage()){
+        emit(pkt_counter_,count_);
+        count_=0;
+    }else{
+        count_ += 1;
 
-    //int client_id = atoi(msg->getName());
-    //simtime_t service_time = simTime() - last_request_time[0];
-    //emit(service_rate_, 1/service_time);
-
-    emit(throughput_, count_ / simTime());
-
-    //EV << count_ << endl;
-    //last_request_time[0] = simTime();
-
-    send(msg, "client_out");
+        send(msg, "client_out");
+    }
 }

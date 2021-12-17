@@ -1,0 +1,27 @@
+version 2
+run warm-up-2-20211217-11:40:29-17824
+attr configname warm-up
+attr datetime 20211217-11:40:29
+attr experiment warm-up
+attr inifile omnetpp.ini
+attr iterationvars ""
+attr iterationvarsf ""
+attr measurement ""
+attr network Network
+attr processid 17824
+attr repetition 2
+attr replication #2
+attr resultdir results
+attr runnumber 2
+attr seedset 2
+param **.server.p1 0.2
+param **.server.p2 0.7
+param **.clients.num_clients 60
+param **.processor.service_rate 1000
+param **.disk.service_rate 100
+param **.webServer.serv_rate_w 50
+param **.clients.timeWindow 10s
+
+scalar Network.server.processor processor_backlog:mean 1.0260240167857
+attr source processor_backlog_s
+

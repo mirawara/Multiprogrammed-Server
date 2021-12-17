@@ -7,8 +7,12 @@ void WebServer::initialize()
     //Initially the web serber is idle
     idle_ = true;
 
+    wserver_backlog_=registerSignal("wserver_backlog_s");
+
     //Recover of the service rate from the NED file
     serv_rate_w_ = par("serv_rate_w").doubleValue();
+
+    Nq_wserver_=0;
 }
 
 void WebServer::handleMessage(cMessage *msg)
@@ -24,6 +28,8 @@ void WebServer::handleMessage(cMessage *msg)
     {
         //If it isn't a self message => the request is queued
         queue_.push(msg);
+        Nq_wserver_=queue_.size();
+        emit(wserver_backlog_,Nq_wserver_);
     }
     if (!queue_.empty() and idle_)
     {

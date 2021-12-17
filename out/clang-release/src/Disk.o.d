@@ -1,6 +1,6 @@
 ../out/clang-release/src/Disk.o: Disk.cc Disk.h \
-  C:\omnetpp-5.7\include\omnetpp.h
+  D:\App\omnetpp-5.7\include\omnetpp.h
 
 Disk.h:
 
-C:\omnetpp-5.7\include\omnetpp.h:
+D:\App\omnetpp-5.7\include\omnetpp.h:

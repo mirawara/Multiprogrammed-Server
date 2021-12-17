@@ -19,6 +19,10 @@ protected:
   //Queue of requests
   queue<cMessage *> queue_;
 
+  int Nq_disk_;
+
+  simsignal_t disk_backlog_;
+
   virtual void initialize();
   virtual void handleMessage(cMessage *msg);
 };

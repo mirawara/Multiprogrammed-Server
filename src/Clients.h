@@ -16,10 +16,14 @@ protected:
   int num_clients_;
 
   //Signal for the throughput
-  simsignal_t throughput_;
+  simsignal_t pkt_counter_;
 
   //Counter for completed requests
   int count_;
+
+  cMessage* selfMsg_;
+
+  simtime_t timeWindow_;
 
   virtual void initialize();
   virtual void handleMessage(cMessage *msg);

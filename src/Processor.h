@@ -26,6 +26,10 @@ protected:
   //Queue of requests
   queue<cMessage *> queue_;
 
+  simsignal_t processor_backlog_;
+
+  int Nq_processor_;
+
   virtual void initialize();
   virtual void handleMessage(cMessage *msg);
 };
