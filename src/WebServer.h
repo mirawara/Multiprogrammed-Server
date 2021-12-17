@@ -26,6 +26,8 @@ protected:
 
   int Nq_wserver_;
 
+  simtime_t Nq_window_;
+
   virtual void initialize();
   virtual void handleMessage(cMessage *msg);
   virtual void finish();

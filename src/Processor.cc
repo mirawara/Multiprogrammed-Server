@@ -9,6 +9,8 @@ void Processor::initialize()
 
     Nq_processor_=0;
 
+    Nq_window_=par("Nq_window");
+
     //Recover of the probabilty p1 from the server compund module
     p1_ = getParentModule()->par("p1");
 
@@ -19,11 +21,15 @@ void Processor::initialize()
 
     //Initially the processor is idle
     idle_ = true;
+
+    cMessage *msg=new cMessage();
+    msg->setName("Nq");
+    scheduleAt(Nq_window_,msg);
 }
 
 void Processor::handleMessage(cMessage *msg)
 {
-    if (msg->isSelfMessage())
+    if (msg->isSelfMessage() and strcmp(msg->getName(),"processing")==0)
     {
         //If it's a self message => the processor has finished processing the request
         idle_ = true;
@@ -44,14 +50,18 @@ void Processor::handleMessage(cMessage *msg)
         {
             send(msg, "to_web_server");
         }
+    }else if(msg->isSelfMessage() and strcmp(msg->getName(),"Nq")==0)
+    {
+        Nq_processor_=queue_.size();
+        emit(processor_backlog_,Nq_processor_);
+        scheduleAt(simTime()+Nq_window_,msg);
     }
     else
     {
         //If it isn't a self message => the request is queued
         queue_.push(msg);
 
-        Nq_processor_=queue_.size();
-        emit(processor_backlog_,Nq_processor_);
+
     }
     if (!queue_.empty() and idle_)
     {
@@ -67,6 +77,7 @@ void Processor::handleMessage(cMessage *msg)
         //Removal of the request from the queue
         queue_.pop();
 
+        next_msg->setName("processing");
         //Exponential service rate => exponential(mean) (in Omnet++)
         scheduleAt(simTime() + exponential(1 / service_rate_processor_,0), next_msg);
     }

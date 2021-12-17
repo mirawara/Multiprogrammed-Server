@@ -11,28 +11,37 @@ void Disk::initialize()
 
     Nq_disk_=0;
 
+    Nq_window_=par("Nq_window");
+
     disk_backlog_=registerSignal("disk_backlog_s");
 
     //Recover of the service rate from the NED file
     serv_rate_disk_ = par("service_rate");
+
+    cMessage *msg=new cMessage();
+    msg->setName("Nq");
+    scheduleAt(Nq_window_,msg);
 }
 
 void Disk::handleMessage(cMessage *msg)
 {
-    if (msg->isSelfMessage())
+    if (msg->isSelfMessage() and strcmp(msg->getName(),"processing")==0)
     {
         //If it's a self message => the disk has finished processing the request
         idle_ = true;
 
         send(msg, "to_processor");
-    }
-    else
+    }else if(msg->isSelfMessage() and strcmp(msg->getName(),"Nq")==0)
+    {
+        Nq_disk_=queue_.size();
+        emit(disk_backlog_,Nq_disk_);
+        scheduleAt(simTime()+Nq_window_,msg);
+
+    }else
     {
         //If it isn't a self message => the request is queued
         queue_.push(msg);
-        Nq_disk_=queue_.size();
-        EV << Nq_disk_<<endl;
-        emit(disk_backlog_,Nq_disk_);
+
     }
     if (!queue_.empty() and idle_)
     {
@@ -48,6 +57,7 @@ void Disk::handleMessage(cMessage *msg)
         //Removal of the request from the queue
         queue_.pop();
 
+        next_msg->setName("processing");
         //Exponential service rate => exponential(mean) (in Omnet++)
         scheduleAt(simTime() + exponential(1 / serv_rate_disk_), next_msg);
     }

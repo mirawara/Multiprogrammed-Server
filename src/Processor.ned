@@ -5,6 +5,8 @@ simple Processor
         //Processor's service rate
         double service_rate =default(1);
         
+        int Nq_window @unit(s)= default(1s);
+        
         @signal[processor_backlog_s];
         @statistic[processor_backlog](source="processor_backlog_s"; record=mean,vector);
 

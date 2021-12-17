@@ -1,0 +1,38 @@
+file 235622 1639765629                                          
+version 2
+run warm-up-2-20211217-19:27:05-12596
+attr configname warm-up
+attr datetime 20211217-19:27:05
+attr experiment warm-up
+attr inifile omnetpp.ini
+attr iterationvars ""
+attr iterationvarsf ""
+attr measurement ""
+attr network Network
+attr processid 12596
+attr repetition 2
+attr replication #2
+attr resultdir results
+attr runnumber 2
+attr seedset 2
+param **.server.p1 0.3
+param **.server.p2 0.47
+param **.clients.num_clients 60
+param **.processor.service_rate 1000
+param **.disk.service_rate 330
+param **.webServer.serv_rate_w 165
+param **.clients.timeWindow 5s
+
+vector 0 Network.server.processor processor_backlog:vector ETV
+attr source processor_backlog_s
+vector 1 Network.server.disk disk_backlog:vector ETV
+attr source disk_backlog_s
+vector 2 Network.webServer wserver_backlog:vector ETV
+attr source wserver_backlog_s
+vector 3 Network.clients pkt_counter:vector ETV
+attr source pkt_counter_s
+0	932 70674 2907 10323618 1 4000 4000 0 19 6480 36578
+1	71606 74191 2908 10323619 1 4000 4000 0 59 134797 5598525
+2	145797 73437 2909 10323620 1 4000 4000 0 59 88112 2984782
+3	219234 16386 13446 10323617 5 4000 800 904 1208 836746 877082138
+

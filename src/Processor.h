@@ -38,6 +38,8 @@ protected:
   //Boolean to check if the processor is idle or not
   bool idle_;
 
+  simtime_t Nq_window_;
+
   //Queue of requests
   queue<cMessage *> queue_;
 

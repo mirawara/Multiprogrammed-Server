@@ -7,6 +7,8 @@ simple WebServer
         //Service rate of the Web Server
         double serv_rate_w =default(1);
         
+        int Nq_window @unit(s)= default(1s);
+        
         @signal[wserver_backlog_s];
         @statistic[wserver_backlog](source="wserver_backlog_s"; record=vector);
         

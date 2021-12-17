@@ -23,6 +23,8 @@ protected:
 
   int Nq_disk_;
 
+  simtime_t Nq_window_;
+
   simsignal_t disk_backlog_;
 
   virtual void initialize();
