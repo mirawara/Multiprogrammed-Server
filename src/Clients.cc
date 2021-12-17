@@ -43,7 +43,6 @@ void Clients::handleMessage(cMessage *msg)
 {
     if(msg->isSelfMessage()){
         emit(pkt_counter_,count_);
-
         count_=0;
         scheduleAt(simTime()+timeWindow_, msg);
     }else{
@@ -51,3 +50,4 @@ void Clients::handleMessage(cMessage *msg)
         send(msg, "client_out");
     }
 }
+

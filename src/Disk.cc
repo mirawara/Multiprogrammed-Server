@@ -58,7 +58,8 @@ void Disk::finish()
 
     while (queue_.size() > 0)
     {
-        delete(queue_.front());
+        cMessage *msg= queue_.front();
+        delete(msg);
         queue_.pop();
     }
 }

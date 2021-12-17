@@ -22,7 +22,6 @@ protected:
   //Counter for completed requests
   int count_;
 
-  cMessage* selfMsg_;
 
   simtime_t timeWindow_;
 
