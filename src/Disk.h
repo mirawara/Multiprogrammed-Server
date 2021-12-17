@@ -1,5 +1,7 @@
-#ifndef __NCLIENTS_SERVER_SIM_DISK_H_
-#define __NCLIENTS_SERVER_SIM_DISK_H_
+
+
+#ifndef __MULTIPROGRAMMED_SERVER_DISK_H_
+#define __MULTIPROGRAMMED_SERVER_DISK_H_
 
 #include <omnetpp.h>
 #include <queue>
