@@ -10,9 +10,9 @@ simple Clients
 
         //Signal for the throughput
         @signal[pkt_counter_s];
-        @statistic[pkt_counter](source="pkt_counter_s"; record=vector);
+        @statistic[pkt_counter](source="pkt_counter_s"; record=mean,vector);
         
-    gates:
+     gates:
         input client_in;
         output client_out;
 }
