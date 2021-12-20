@@ -19,12 +19,22 @@ void Processor::initialize()
 
     processor_backlog_=registerSignal("processor_backlog_s");
 
+    timeWindow_ = par("timeWindow");
+
+    pkt_counter_ = registerSignal("pkt_counter_s");
+
+    service_time_ = registerSignal("service_time_s");
+
     //Initially the processor is idle
     idle_ = true;
 
     cMessage *msg=new cMessage();
     msg->setName("Nq");
     scheduleAt(Nq_window_,msg);
+
+    cMessage *msg_thput=new cMessage();
+    msg_thput->setName("Throughput");
+    scheduleAt(Nq_window_,msg_thput);
 }
 
 void Processor::handleMessage(cMessage *msg)
@@ -33,7 +43,7 @@ void Processor::handleMessage(cMessage *msg)
     {
         //If it's a self message => the processor has finished processing the request
         idle_ = true;
-
+        count_++;
         //Generation of the random number used to choose
         //the request's path
         double option = uniform(0, 1, 1);
@@ -55,6 +65,12 @@ void Processor::handleMessage(cMessage *msg)
         Nq_processor_=queue_.size();
         emit(processor_backlog_,Nq_processor_);
         scheduleAt(simTime()+Nq_window_,msg);
+    }
+    else if(msg->isSelfMessage() and strcmp(msg->getName(),"Throughput")==0)
+    {
+        emit(pkt_counter_,count_);
+        count_=0;
+        scheduleAt(simTime()+timeWindow_, msg);
     }
     else
     {
@@ -79,7 +95,9 @@ void Processor::handleMessage(cMessage *msg)
 
         next_msg->setName("processing");
         //Exponential service rate => exponential(mean) (in Omnet++)
-        scheduleAt(simTime() + exponential(1 / service_rate_processor_,0), next_msg);
+        next_service_time_ = exponential(1 / service_rate_processor_);
+        emit(service_time_, next_service_time_);
+        scheduleAt(simTime() + next_service_time_, next_msg);
     }
 }
 

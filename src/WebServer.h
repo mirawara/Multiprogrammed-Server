@@ -24,9 +24,21 @@ protected:
 
   simsignal_t wserver_backlog_;
 
+  //Signal for the throughput
+  simsignal_t pkt_counter_;
+
+  simtime_t timeWindow_;
+
+  simsignal_t service_time_;
+
+  simtime_t next_service_time_;
+
   int Nq_wserver_;
 
   simtime_t Nq_window_;
+
+  //Counter for completed requests
+   int count_;
 
   virtual void initialize();
   virtual void handleMessage(cMessage *msg);

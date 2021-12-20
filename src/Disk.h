@@ -27,6 +27,18 @@ protected:
 
   simsignal_t disk_backlog_;
 
+  //Signal for the throughput
+  simsignal_t pkt_counter_;
+
+  simsignal_t service_time_;
+
+  simtime_t next_service_time_;
+
+  simtime_t timeWindow_;
+
+  //Counter for completed requests
+  int count_;
+
   virtual void initialize();
   virtual void handleMessage(cMessage *msg);
   virtual void finish();
