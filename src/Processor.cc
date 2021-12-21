@@ -1,5 +1,5 @@
 #include "Processor.h"
-
+#include "Clients.h"
 Define_Module(Processor);
 
 void Processor::initialize()
@@ -28,6 +28,10 @@ void Processor::initialize()
     //Initially the processor is idle
     idle_ = true;
 
+    cModule* tmp=getModuleByPath("Network.clients");
+    Clients* cl=check_and_cast<Clients *>(tmp);
+    residence_times_= new simtime_t[cl->getNClients()];
+
     cMessage *msg=new cMessage();
     msg->setName("Nq");
     scheduleAt(Nq_window_,msg);
@@ -41,6 +45,7 @@ void Processor::handleMessage(cMessage *msg)
 {
     if (msg->isSelfMessage() and strcmp(msg->getName(),"processing")==0)
     {
+
         //If it's a self message => the processor has finished processing the request
         idle_ = true;
         count_++;

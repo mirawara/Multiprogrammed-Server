@@ -28,6 +28,8 @@ void Disk::initialize()
     msg->setName("Nq");
     scheduleAt(Nq_window_,msg);
 
+
+
     cMessage *msg_thput=new cMessage();
     msg_thput->setName("Throughput");
     scheduleAt(Nq_window_,msg_thput);

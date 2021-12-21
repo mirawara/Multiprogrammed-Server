@@ -25,8 +25,14 @@ protected:
 
   simtime_t timeWindow_;
 
+  simtime_t arrival_time_;
+  simsignal_t interarrival_time_;
+
   virtual void initialize();
   virtual void handleMessage(cMessage *msg);
+
+public:
+  virtual int getNClients();
 };
 
 #endif

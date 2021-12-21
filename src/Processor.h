@@ -40,6 +40,8 @@ protected:
 
   simtime_t Nq_window_;
 
+  simtime_t* residence_times_;
+
   //Signal for the throughput
   simsignal_t pkt_counter_;
 
