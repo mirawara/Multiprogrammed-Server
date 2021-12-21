@@ -11,13 +11,13 @@ simple Disk
 
         //Signal for the throughput
         @signal[pkt_counter_s];
-        @statistic[pkt_counter](source="pkt_counter_s"; record=mean);
+        @statistic[pkt_counter_disk](source="pkt_counter_s"; record=mean);
                 
         @signal[disk_backlog_s];
         @statistic[disk_backlog](source="disk_backlog_s"; record=vector);
         
         @signal[service_time_s];
-        @statistic[service_time](source="service_time_s"; record=mean);
+        @statistic[service_time_disk](source="service_time_s"; record=mean);
         
     gates:
         input from_processor;

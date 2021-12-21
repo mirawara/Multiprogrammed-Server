@@ -10,13 +10,13 @@ simple Processor
 
         //Signal for the throughput
         @signal[pkt_counter_s];
-        @statistic[pkt_counter](source="pkt_counter_s"; record=mean);
+        @statistic[pkt_counter_processor](source="pkt_counter_s"; record=mean);
         
         @signal[processor_backlog_s];
         @statistic[processor_backlog](source="processor_backlog_s"; record=mean,vector);
         
         @signal[service_time_s];
-        @statistic[service_time](source="service_time_s"; record=mean);
+        @statistic[service_time_processor](source="service_time_s"; record=mean);
 
     gates:
         input from_clients;
