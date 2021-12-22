@@ -28,10 +28,6 @@ void Processor::initialize()
     //Initially the processor is idle
     idle_ = true;
 
-    cModule* tmp=getModuleByPath("Network.clients");
-    Clients* cl=check_and_cast<Clients *>(tmp);
-    residence_times_= new simtime_t[cl->getNClients()];
-
     cMessage *msg=new cMessage();
     msg->setName("Nq");
     scheduleAt(Nq_window_,msg);
@@ -43,7 +39,7 @@ void Processor::initialize()
 
 void Processor::handleMessage(cMessage *msg)
 {
-    if (msg->isSelfMessage() and strcmp(msg->getName(),"processing")==0)
+    if (msg->isSelfMessage() and strcmp(msg->getName(),"Nq")!=0 and strcmp(msg->getName(), "Throughput")!=0)
     {
 
         //If it's a self message => the processor has finished processing the request
@@ -98,7 +94,7 @@ void Processor::handleMessage(cMessage *msg)
         //Removal of the request from the queue
         queue_.pop();
 
-        next_msg->setName("processing");
+        //next_msg->setName("processing");
         //Exponential service rate => exponential(mean) (in Omnet++)
         next_service_time_ = exponential(1 / service_rate_processor_);
         emit(service_time_, next_service_time_);

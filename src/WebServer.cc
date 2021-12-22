@@ -33,7 +33,7 @@ void WebServer::initialize()
 
 void WebServer::handleMessage(cMessage *msg)
 {
-    if (msg->isSelfMessage() and strcmp(msg->getName(),"processing")==0)
+    if (msg->isSelfMessage() and strcmp(msg->getName(),"Nq")!=0 and strcmp(msg->getName(), "Throughput")!=0)
     {
         //If it's a self message => the web server has finished processing the request
         idle_ = true;
@@ -72,7 +72,7 @@ void WebServer::handleMessage(cMessage *msg)
         //Removal of the request from the queue
         queue_.pop();
 
-        next_msg->setName("processing");
+        //next_msg->setName("processing");
 
         //Exponential service rate => exponential(mean) (in Omnet++)
         next_service_time_ = exponential(1 / serv_rate_w_);

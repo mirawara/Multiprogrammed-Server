@@ -28,6 +28,9 @@ protected:
   simtime_t arrival_time_;
   simsignal_t interarrival_time_;
 
+  simtime_t* response_times_;
+  simsignal_t response_time_;
+
   virtual void initialize();
   virtual void handleMessage(cMessage *msg);
 
