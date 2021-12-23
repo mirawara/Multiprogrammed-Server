@@ -1,0 +1,45 @@
+version 2
+run scenario1-1-20211222-17:37:03-12112
+attr configname scenario1
+attr datetime 20211222-17:37:03
+attr experiment scenario1
+attr inifile omnetpp.ini
+attr iterationvars ""
+attr iterationvarsf ""
+attr measurement ""
+attr network Network
+attr processid 12112
+attr repetition 1
+attr replication #1
+attr resultdir results
+attr runnumber 1
+attr seedset 1
+param **.server.p1 0.2
+param **.server.p2 0.385
+param **.clients.num_clients 60
+param **.processor.service_rate 1000
+param **.disk.service_rate 300
+param **.webServer.serv_rate_w 80
+param **.clients.timeWindow 5s
+
+scalar Network.clients pkt_counter:mean 194.57711442786
+attr source pkt_counter_s
+scalar Network.clients response_time:mean 1.5418459542011
+attr source response_time_s
+scalar Network.clients interarrival_time:mean 0.025709402095786
+attr source interarrival_time_s
+scalar Network.server.processor service_time_processor:mean 0.00099553183219787
+attr source service_time_s
+scalar Network.server.processor processor_backlog:mean 0.047952047952048
+attr source processor_backlog_s
+scalar Network.server.processor pkt_counter_processor:mean 1950.84
+attr source pkt_counter_s
+scalar Network.server.disk service_time_disk:mean 0.0033304856287945
+attr source service_time_s
+scalar Network.server.disk pkt_counter_disk:mean 753.96
+attr source pkt_counter_s
+scalar Network.webServer service_time_ws:mean 0.012378357413315
+attr source service_time_s
+scalar Network.webServer pkt_counter_ws:mean 807.73
+attr source pkt_counter_s
+

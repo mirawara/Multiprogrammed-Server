@@ -1,0 +1,46 @@
+file 3354486 1640191024                                         
+version 2
+run scenario1-1-20211222-17:37:03-12112
+attr configname scenario1
+attr datetime 20211222-17:37:03
+attr experiment scenario1
+attr inifile omnetpp.ini
+attr iterationvars ""
+attr iterationvarsf ""
+attr measurement ""
+attr network Network
+attr processid 12112
+attr repetition 1
+attr replication #1
+attr resultdir results
+attr runnumber 1
+attr seedset 1
+param **.server.p1 0.2
+param **.server.p2 0.385
+param **.clients.num_clients 60
+param **.processor.service_rate 1000
+param **.disk.service_rate 300
+param **.webServer.serv_rate_w 80
+param **.clients.timeWindow 5s
+
+vector 0 Network.clients pkt_counter:vector ETV
+attr source pkt_counter_s
+vector 1 Network.server.processor processor_backlog:vector ETV
+attr source processor_backlog_s
+vector 2 Network.server.disk disk_backlog:vector ETV
+attr source disk_backlog_s
+vector 3 Network.webServer wserver_backlog:vector ETV
+attr source wserver_backlog_s
+vector 4 Network.clients interarrival_time:vector ETV
+attr source interarrival_time_s
+vector 5 Network.clients response_time:vector ETV
+attr source response_time_s
+4	1106 1381240 367266 993791 500.007874821199 1340.309982998197 32768 2.60442e-07 0.428005952454 840.31705966391 60.36370859139
+5	1382346 1381571 367266 993791 500.007874821199 1340.309982998197 32768 2.60442e-07 21.871284067415 50378.828486858 192512.49708655
+0	2763917 3750 367255 1112144 500 1500 201 147 244 39110 7680826
+1	2767667 16669 367256 1112145 500 1500 1001 0 3 48 80
+2	2784336 16669 367257 1112146 500 1500 1001 0 3 62 92
+3	2801005 17670 367258 1112147 500 1500 1001 55 59 58533 3423317
+4	2818675 267872 993832 1112120 1340.363212179151 1499.960117849856 6127 7.00454e-07 0.371964930682 159.65013485166 11.637367822445
+5	3086547 267937 993832 1112120 1340.363212179151 1499.960117849856 6127 7.00454e-07 20.982585703412 9591.269901794 37887.808492103
+
