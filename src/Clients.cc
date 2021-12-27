@@ -5,71 +5,62 @@ using namespace std;
 
 Define_Module(Clients);
 
-void Clients::initialize()
-{
+void Clients::initialize() {
     //last_request_time = new simtime_t[num_clients_];
     //service_rate_ = registerSignal("service_rate");
 
     //Initialization of the counter
     count_ = 0;
 
-    arrival_time_= simTime();
+    arrival_time_ = simTime();
 
     //Recover of the number of clients from Clients.ned
     num_clients_ = par("num_clients").intValue();
     response_times_ = new simtime_t[num_clients_];
     for (int i = 0; i < num_clients_; i++)
-        response_times_[i]=0;
+        response_times_[i] = 0;
 
     timeWindow_ = par("timeWindow");
 
     pkt_counter_ = registerSignal("pkt_counter_s");
-    interarrival_time_= registerSignal("interarrival_time_s");
+    interarrival_time_ = registerSignal("interarrival_time_s");
     response_time_ = registerSignal("response_time_s");
 
     //Sending of the N messages to the Server
-    for (int i = 0; i < num_clients_; i++)
-    {
-        //last_request_time[i] = 0;
-        //char i_ = i + '0';
-        //char *id_client = &i_;
+    for (int i = 0; i < num_clients_; i++) {
 
         cMessage *msg = new cMessage(to_string(i).c_str());
 
-       // msg->setName(id_client);
+        // msg->setName(id_client);
         send(msg, "client_out");
     }
 
-
-    cMessage *selfMsg_=new cMessage();
+    cMessage *selfMsg_ = new cMessage();
     scheduleAt(timeWindow_, selfMsg_);
 }
 
-void Clients::handleMessage(cMessage *msg)
-{
+void Clients::handleMessage(cMessage *msg) {
 
-    if(msg->isSelfMessage()){
-        emit(pkt_counter_,count_);
-        count_=0;
-        scheduleAt(simTime()+timeWindow_, msg);
-    }else{
+    if (msg->isSelfMessage()) {
+        emit(pkt_counter_, count_);
+        count_ = 0;
+        scheduleAt(simTime() + timeWindow_, msg);
+    } else {
         count_ += 1;
-        //EV << arrival_time_ << endl;
-        emit(interarrival_time_,simTime()-arrival_time_);
-        arrival_time_=simTime();
+
+        emit(interarrival_time_, simTime() - arrival_time_);
+        arrival_time_ = simTime();
 
         int id_client = atoi(msg->getName());
-        //EV << num_clients_ << endl;
 
-        emit(response_time_, simTime()-response_times_[id_client]);
+        emit(response_time_, simTime() - response_times_[id_client]);
         response_times_[id_client] = simTime();
 
         send(msg, "client_out");
     }
 }
 
-int Clients::getNClients()
-{
-    return par("num_clients").intValue();
-}
+void Clients::finish() {
 
+    delete[] response_times_;
+}

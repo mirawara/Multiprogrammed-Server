@@ -4,16 +4,15 @@ using namespace std;
 
 Define_Module(Disk);
 
-void Disk::initialize()
-{
+void Disk::initialize() {
     //Initially the disk is idle
     idle_ = true;
 
-    Nq_disk_=0;
+    Nq_disk_ = 0;
 
-    Nq_window_=par("Nq_window");
+    Nq_window_ = par("Nq_window");
 
-    disk_backlog_=registerSignal("disk_backlog_s");
+    disk_backlog_ = registerSignal("disk_backlog_s");
 
     //Recover of the service rate from the NED file
     serv_rate_disk_ = par("service_rate");
@@ -24,45 +23,39 @@ void Disk::initialize()
 
     service_time_ = registerSignal("service_time_s");
 
-    cMessage *msg=new cMessage();
+    cMessage *msg = new cMessage();
     msg->setName("Nq");
-    scheduleAt(Nq_window_,msg);
+    scheduleAt(Nq_window_, msg);
 
-
-
-    cMessage *msg_thput=new cMessage();
+    cMessage *msg_thput = new cMessage();
     msg_thput->setName("Throughput");
-    scheduleAt(Nq_window_,msg_thput);
+    scheduleAt(Nq_window_, msg_thput);
 }
 
-void Disk::handleMessage(cMessage *msg)
-{
-    if (msg->isSelfMessage() and strcmp(msg->getName(),"Nq")!=0 and strcmp(msg->getName(), "Throughput")!=0)
-    {
+void Disk::handleMessage(cMessage *msg) {
+    if (msg->isSelfMessage() and strcmp(msg->getName(), "Nq") != 0
+            and strcmp(msg->getName(), "Throughput") != 0) {
         //If it's a self message => the disk has finished processing the request
         idle_ = true;
         count_++;
 
         send(msg, "to_processor");
-    }else if(msg->isSelfMessage() and strcmp(msg->getName(),"Nq")==0)
-    {
-        Nq_disk_=queue_.size();
-        emit(disk_backlog_,Nq_disk_);
-        scheduleAt(simTime()+Nq_window_,msg);
+    } else if (msg->isSelfMessage() and strcmp(msg->getName(), "Nq") == 0) {
+        Nq_disk_ = queue_.size();
+        emit(disk_backlog_, Nq_disk_);
+        scheduleAt(simTime() + Nq_window_, msg);
 
-    }else if(msg->isSelfMessage() and strcmp(msg->getName(),"Throughput")==0)
-    {
-        emit(pkt_counter_,count_);
-        count_=0;
-        scheduleAt(simTime()+timeWindow_, msg);
-    }else
-    {
+    } else if (msg->isSelfMessage()
+            and strcmp(msg->getName(), "Throughput") == 0) {
+        emit(pkt_counter_, count_);
+        count_ = 0;
+        scheduleAt(simTime() + timeWindow_, msg);
+    } else {
         //If it isn't a self message => the request is queued
         queue_.push(msg);
 
     }
-    if (!queue_.empty() and idle_)
-    {
+    if (!queue_.empty() and idle_) {
         //If the queue isn't empty and the disk is idle,
         //it takes the first request in the queue
         //and processes it
@@ -83,13 +76,11 @@ void Disk::handleMessage(cMessage *msg)
     }
 }
 
-void Disk::finish()
-{
+void Disk::finish() {
 
-    while (queue_.size() > 0)
-    {
-        cMessage *msg= queue_.front();
-        delete(msg);
+    while (queue_.size() > 0) {
+        cMessage *msg = queue_.front();
+        delete (msg);
         queue_.pop();
     }
 }
