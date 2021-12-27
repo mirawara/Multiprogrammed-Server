@@ -34,7 +34,7 @@ void Disk::initialize() {
 
 void Disk::handleMessage(cMessage *msg) {
     if (msg->isSelfMessage() and strcmp(msg->getName(), "Nq") != 0
-            and strcmp(msg->getName(), "Throughput") != 0) {
+        and strcmp(msg->getName(), "Throughput") != 0) {
         //If it's a self message => the disk has finished processing the request
         idle_ = true;
         count_++;
@@ -46,7 +46,7 @@ void Disk::handleMessage(cMessage *msg) {
         scheduleAt(simTime() + Nq_window_, msg);
 
     } else if (msg->isSelfMessage()
-            and strcmp(msg->getName(), "Throughput") == 0) {
+               and strcmp(msg->getName(), "Throughput") == 0) {
         emit(pkt_counter_, count_);
         count_ = 0;
         scheduleAt(simTime() + timeWindow_, msg);

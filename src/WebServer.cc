@@ -2,19 +2,18 @@
 
 Define_Module(WebServer);
 
-void WebServer::initialize()
-{
+void WebServer::initialize() {
     //Initially the web serber is idle
     idle_ = true;
 
-    Nq_window_=par("Nq_window");
+    Nq_window_ = par("Nq_window");
 
-    wserver_backlog_=registerSignal("wserver_backlog_s");
+    wserver_backlog_ = registerSignal("wserver_backlog_s");
 
     //Recover of the service rate from the NED file
     serv_rate_w_ = par("serv_rate_w").doubleValue();
 
-    Nq_wserver_=0;
+    Nq_wserver_ = 0;
 
     timeWindow_ = par("timeWindow");
 
@@ -22,44 +21,36 @@ void WebServer::initialize()
 
     service_time_ = registerSignal("service_time_s");
 
-    cMessage *msg=new cMessage();
+    cMessage *msg = new cMessage();
     msg->setName("Nq");
-    scheduleAt(Nq_window_,msg);
+    scheduleAt(Nq_window_, msg);
 
-    cMessage *msg_thput=new cMessage();
+    cMessage *msg_thput = new cMessage();
     msg_thput->setName("Throughput");
-    scheduleAt(Nq_window_,msg_thput);
+    scheduleAt(Nq_window_, msg_thput);
 }
 
-void WebServer::handleMessage(cMessage *msg)
-{
-    if (msg->isSelfMessage() and strcmp(msg->getName(),"Nq")!=0 and strcmp(msg->getName(), "Throughput")!=0)
-    {
+void WebServer::handleMessage(cMessage *msg) {
+    if (msg->isSelfMessage() and strcmp(msg->getName(), "Nq") != 0 and strcmp(msg->getName(), "Throughput") != 0) {
         //If it's a self message => the web server has finished processing the request
         idle_ = true;
         count_++;
 
         send(msg, "web_out");
-    }else if(msg->isSelfMessage() and strcmp(msg->getName(),"Nq")==0)
-    {
-        Nq_wserver_=queue_.size();
-        emit(wserver_backlog_,Nq_wserver_);
-        scheduleAt(simTime()+Nq_window_,msg);
-    }
-    else if(msg->isSelfMessage() and strcmp(msg->getName(),"Throughput")==0)
-    {
-        emit(pkt_counter_,count_);
-        count_=0;
-        scheduleAt(simTime()+timeWindow_, msg);
-    }
-    else
-    {
+    } else if (msg->isSelfMessage() and strcmp(msg->getName(), "Nq") == 0) {
+        Nq_wserver_ = queue_.size();
+        emit(wserver_backlog_, Nq_wserver_);
+        scheduleAt(simTime() + Nq_window_, msg);
+    } else if (msg->isSelfMessage() and strcmp(msg->getName(), "Throughput") == 0) {
+        emit(pkt_counter_, count_);
+        count_ = 0;
+        scheduleAt(simTime() + timeWindow_, msg);
+    } else {
         //If it isn't a self message => the request is queued
         queue_.push(msg);
 
     }
-    if (!queue_.empty() and idle_)
-    {
+    if (!queue_.empty() and idle_) {
         //If the queue isn't empty and the web server is idle,
         //it takes the first request in the queue
         //and processes it
@@ -81,13 +72,11 @@ void WebServer::handleMessage(cMessage *msg)
     }
 }
 
-void WebServer::finish()
-{
+void WebServer::finish() {
 
-    while (queue_.size() > 0)
-    {
-        cMessage *msg= queue_.front();
-        delete(msg);
+    while (queue_.size() > 0) {
+        cMessage *msg = queue_.front();
+        delete (msg);
         queue_.pop();
     }
 }

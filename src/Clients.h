@@ -5,7 +5,7 @@
 
 using namespace omnetpp;
 
-class Clients: public cSimpleModule {
+class Clients : public cSimpleModule {
 
 protected:
     //simtime_t *last_request_time;
@@ -29,7 +29,9 @@ protected:
     simsignal_t response_time_;
 
     virtual void initialize();
+
     virtual void handleMessage(cMessage *msg);
+
     virtual void finish();
 };
 

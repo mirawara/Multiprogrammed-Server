@@ -1,15 +1,15 @@
 #include "Processor.h"
 #include "Clients.h"
+
 Define_Module(Processor);
 
-void Processor::initialize()
-{
+void Processor::initialize() {
     //Recover of the processor's service rate from the NED file
     service_rate_processor_ = par("service_rate");
 
-    Nq_processor_=0;
+    Nq_processor_ = 0;
 
-    Nq_window_=par("Nq_window");
+    Nq_window_ = par("Nq_window");
 
     //Recover of the probabilty p1 from the server compund module
     p1_ = getParentModule()->par("p1");
@@ -17,7 +17,7 @@ void Processor::initialize()
     //Recover of the probabilty p2 from the server compund module
     p2_ = getParentModule()->par("p2");
 
-    processor_backlog_=registerSignal("processor_backlog_s");
+    processor_backlog_ = registerSignal("processor_backlog_s");
 
     timeWindow_ = par("timeWindow");
 
@@ -28,19 +28,17 @@ void Processor::initialize()
     //Initially the processor is idle
     idle_ = true;
 
-    cMessage *msg=new cMessage();
+    cMessage *msg = new cMessage();
     msg->setName("Nq");
-    scheduleAt(Nq_window_,msg);
+    scheduleAt(Nq_window_, msg);
 
-    cMessage *msg_thput=new cMessage();
+    cMessage *msg_thput = new cMessage();
     msg_thput->setName("Throughput");
-    scheduleAt(Nq_window_,msg_thput);
+    scheduleAt(Nq_window_, msg_thput);
 }
 
-void Processor::handleMessage(cMessage *msg)
-{
-    if (msg->isSelfMessage() and strcmp(msg->getName(),"Nq")!=0 and strcmp(msg->getName(), "Throughput")!=0)
-    {
+void Processor::handleMessage(cMessage *msg) {
+    if (msg->isSelfMessage() and strcmp(msg->getName(), "Nq") != 0 and strcmp(msg->getName(), "Throughput") != 0) {
 
         //If it's a self message => the processor has finished processing the request
         idle_ = true;
@@ -52,36 +50,28 @@ void Processor::handleMessage(cMessage *msg)
         if (option < p1_) //=> with probability p1
         {
             send(msg, "to_clients");
-        }
-        else if (p1_ <= option && option < p1_ + p2_) //=> with probability p2
+        } else if (p1_ <= option && option < p1_ + p2_) //=> with probability p2
         {
             send(msg, "to_disk");
-        }
-        else //=> with probability p3
+        } else //=> with probability p3
         {
             send(msg, "to_web_server");
         }
-    }else if(msg->isSelfMessage() and strcmp(msg->getName(),"Nq")==0)
-    {
-        Nq_processor_=queue_.size();
-        emit(processor_backlog_,Nq_processor_);
-        scheduleAt(simTime()+Nq_window_,msg);
-    }
-    else if(msg->isSelfMessage() and strcmp(msg->getName(),"Throughput")==0)
-    {
-        emit(pkt_counter_,count_);
-        count_=0;
-        scheduleAt(simTime()+timeWindow_, msg);
-    }
-    else
-    {
+    } else if (msg->isSelfMessage() and strcmp(msg->getName(), "Nq") == 0) {
+        Nq_processor_ = queue_.size();
+        emit(processor_backlog_, Nq_processor_);
+        scheduleAt(simTime() + Nq_window_, msg);
+    } else if (msg->isSelfMessage() and strcmp(msg->getName(), "Throughput") == 0) {
+        emit(pkt_counter_, count_);
+        count_ = 0;
+        scheduleAt(simTime() + timeWindow_, msg);
+    } else {
         //If it isn't a self message => the request is queued
         queue_.push(msg);
 
 
     }
-    if (!queue_.empty() and idle_)
-    {
+    if (!queue_.empty() and idle_) {
         //If the queue isn't empty and the server is idle,
         //it takes the first request in the queue
         //and processes it
@@ -102,13 +92,11 @@ void Processor::handleMessage(cMessage *msg)
     }
 }
 
-void Processor::finish()
-{
+void Processor::finish() {
 
-    while (queue_.size() > 0)
-    {
-        cMessage *msg= queue_.front();
-        delete(msg);
+    while (queue_.size() > 0) {
+        cMessage *msg = queue_.front();
+        delete (msg);
         queue_.pop();
     }
 }

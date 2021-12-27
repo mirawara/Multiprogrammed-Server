@@ -20,7 +20,6 @@ module Server
         //The server is composed by a processor and a disk
         processor: Processor;
         disk: Disk;
-
     connections:
         //Connection between the Server's input gate (connected with the Client's output)
         //and the Processor's input gate

@@ -9,40 +9,41 @@
 using namespace omnetpp;
 using namespace std;
 
-class WebServer : public cSimpleModule
-{
+class WebServer : public cSimpleModule {
 
 protected:
-  //Boolean to check if the processor is idle or not
-  bool idle_;
+    //Boolean to check if the processor is idle or not
+    bool idle_;
 
-  //Service rate of the processor
-  double serv_rate_w_;
+    //Service rate of the processor
+    double serv_rate_w_;
 
-  //Queue of requests
-  queue<cMessage *> queue_;
+    //Queue of requests
+    queue<cMessage *> queue_;
 
-  simsignal_t wserver_backlog_;
+    simsignal_t wserver_backlog_;
 
-  //Signal for the throughput
-  simsignal_t pkt_counter_;
+    //Signal for the throughput
+    simsignal_t pkt_counter_;
 
-  simtime_t timeWindow_;
+    simtime_t timeWindow_;
 
-  simsignal_t service_time_;
+    simsignal_t service_time_;
 
-  simtime_t next_service_time_;
+    simtime_t next_service_time_;
 
-  int Nq_wserver_;
+    int Nq_wserver_;
 
-  simtime_t Nq_window_;
+    simtime_t Nq_window_;
 
-  //Counter for completed requests
-   int count_;
+    //Counter for completed requests
+    int count_;
 
-  virtual void initialize();
-  virtual void handleMessage(cMessage *msg);
-  virtual void finish();
+    virtual void initialize();
+
+    virtual void handleMessage(cMessage *msg);
+
+    virtual void finish();
 
 };
 
