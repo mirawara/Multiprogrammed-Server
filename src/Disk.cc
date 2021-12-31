@@ -8,6 +8,7 @@ void Disk::initialize() {
     //Initially the disk is idle
     idle_ = true;
 
+    count_=0;
     Nq_disk_ = 0;
 
     Nq_window_ = par("Nq_window");
@@ -38,7 +39,6 @@ void Disk::handleMessage(cMessage *msg) {
         //If it's a self message => the disk has finished processing the request
         idle_ = true;
         count_++;
-
         send(msg, "to_processor");
     } else if (msg->isSelfMessage() and strcmp(msg->getName(), "Nq") == 0) {
         Nq_disk_ = queue_.size();

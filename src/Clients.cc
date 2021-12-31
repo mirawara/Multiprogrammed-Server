@@ -5,7 +5,8 @@ using namespace std;
 
 Define_Module(Clients);
 
-void Clients::initialize() {
+void Clients::initialize()
+{
     //last_request_time = new simtime_t[num_clients_];
     //service_rate_ = registerSignal("service_rate");
 
@@ -27,7 +28,8 @@ void Clients::initialize() {
     response_time_ = registerSignal("response_time_s");
 
     //Sending of the N messages to the Server
-    for (int i = 0; i < num_clients_; i++) {
+    for (int i = 0; i < num_clients_; i++)
+    {
 
         cMessage *msg = new cMessage(to_string(i).c_str());
 
@@ -39,13 +41,17 @@ void Clients::initialize() {
     scheduleAt(timeWindow_, selfMsg_);
 }
 
-void Clients::handleMessage(cMessage *msg) {
+void Clients::handleMessage(cMessage *msg)
+{
 
-    if (msg->isSelfMessage()) {
+    if (msg->isSelfMessage())
+    {
         emit(pkt_counter_, count_);
         count_ = 0;
         scheduleAt(simTime() + timeWindow_, msg);
-    } else {
+    }
+    else
+    {
         count_ += 1;
 
         emit(interarrival_time_, simTime() - arrival_time_);
@@ -60,7 +66,8 @@ void Clients::handleMessage(cMessage *msg) {
     }
 }
 
-void Clients::finish() {
+void Clients::finish()
+{
 
     delete[] response_times_;
 }
