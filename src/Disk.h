@@ -20,11 +20,13 @@ protected:
     //Queue of requests
     queue<cMessage *> queue_;
 
+    //Number of queued requests
     int Nq_disk_;
 
+    //Timer period for the observation of the number of queued requests
     simtime_t Nq_window_;
 
-    simsignal_t disk_backlog_;
+    simsignal_t disk_queued_req_;
 
     //Signal for the throughput
     simsignal_t pkt_counter_;
@@ -33,6 +35,7 @@ protected:
 
     simtime_t next_service_time_;
 
+    //Time window in which the number of completed requests is counted
     simtime_t timeWindow_;
 
     //Counter for completed requests

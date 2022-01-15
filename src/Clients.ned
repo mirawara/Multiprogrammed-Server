@@ -6,6 +6,7 @@ simple Clients
         //Number of clients
         int num_clients = default(1);
 
+		//Time window in which the number of completed requests is counted
         int timeWindow @unit(s) = default(10s);
 
         @signal[interarrival_time_s];

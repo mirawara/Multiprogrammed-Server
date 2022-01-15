@@ -17,7 +17,7 @@ void Processor::initialize() {
     //Recover of the probabilty p2 from the server compund module
     p2_ = getParentModule()->par("p2");
 
-    processor_backlog_ = registerSignal("processor_backlog_s");
+    processor_queued_req_ = registerSignal("processor_queued_req_s");
 
     timeWindow_ = par("timeWindow");
 
@@ -28,10 +28,12 @@ void Processor::initialize() {
     //Initially the processor is idle
     idle_ = true;
 
+    //Scheduling the timer for counting the number of queued requests
     cMessage *msg = new cMessage();
     msg->setName("Nq");
     scheduleAt(Nq_window_, msg);
 
+    //Scheduling the timer for counting the number of completed requests
     cMessage *msg_thput = new cMessage();
     msg_thput->setName("Throughput");
     scheduleAt(Nq_window_, msg_thput);
@@ -40,7 +42,7 @@ void Processor::initialize() {
 void Processor::handleMessage(cMessage *msg) {
     if (msg->isSelfMessage() and strcmp(msg->getName(), "Nq") != 0 and strcmp(msg->getName(), "Throughput") != 0) {
 
-        //If it's a self message => the processor has finished processing the request
+        //the processor has finished processing the request
         idle_ = true;
         count_++;
         //Generation of the random number used to choose
@@ -58,10 +60,14 @@ void Processor::handleMessage(cMessage *msg) {
             send(msg, "to_web_server");
         }
     } else if (msg->isSelfMessage() and strcmp(msg->getName(), "Nq") == 0) {
+
+        //It's the timer for counting the number of queued requests
         Nq_processor_ = queue_.size();
-        emit(processor_backlog_, Nq_processor_);
+        emit(processor_queued_req_, Nq_processor_);
         scheduleAt(simTime() + Nq_window_, msg);
     } else if (msg->isSelfMessage() and strcmp(msg->getName(), "Throughput") == 0) {
+
+        //It's the timer for counting the number of completed requests
         emit(pkt_counter_, count_);
         count_ = 0;
         scheduleAt(simTime() + timeWindow_, msg);

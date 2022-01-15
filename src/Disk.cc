@@ -11,9 +11,10 @@ void Disk::initialize() {
     count_=0;
     Nq_disk_ = 0;
 
+    //Retrieving the timer period for the number of queued requests from the NED file
     Nq_window_ = par("Nq_window");
 
-    disk_backlog_ = registerSignal("disk_backlog_s");
+    disk_queued_req_ = registerSignal("disk_queued_req_s");
 
     //Recover of the service rate from the NED file
     serv_rate_disk_ = par("service_rate");
@@ -24,10 +25,12 @@ void Disk::initialize() {
 
     service_time_ = registerSignal("service_time_s");
 
+    //Scheduling the timer to record the number of queued requests
     cMessage *msg = new cMessage();
     msg->setName("Nq");
     scheduleAt(Nq_window_, msg);
 
+    //Scheduling the timer to record the number of completed requests
     cMessage *msg_thput = new cMessage();
     msg_thput->setName("Throughput");
     scheduleAt(Nq_window_, msg_thput);
@@ -36,21 +39,27 @@ void Disk::initialize() {
 void Disk::handleMessage(cMessage *msg) {
     if (msg->isSelfMessage() and strcmp(msg->getName(), "Nq") != 0
         and strcmp(msg->getName(), "Throughput") != 0) {
-        //If it's a self message => the disk has finished processing the request
+
+        //The disk has finished processing the request
         idle_ = true;
         count_++;
         send(msg, "to_processor");
     } else if (msg->isSelfMessage() and strcmp(msg->getName(), "Nq") == 0) {
+
+        //It's the timer for recording the number of queued requests
         Nq_disk_ = queue_.size();
-        emit(disk_backlog_, Nq_disk_);
+        emit(disk_queued_req_, Nq_disk_);
         scheduleAt(simTime() + Nq_window_, msg);
 
     } else if (msg->isSelfMessage()
                and strcmp(msg->getName(), "Throughput") == 0) {
+
+        //It's the timer for recording the number of completed requests
         emit(pkt_counter_, count_);
         count_ = 0;
         scheduleAt(simTime() + timeWindow_, msg);
     } else {
+
         //If it isn't a self message => the request is queued
         queue_.push(msg);
 

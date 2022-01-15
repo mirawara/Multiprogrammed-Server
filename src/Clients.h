@@ -20,12 +20,17 @@ protected:
     //Counter for completed requests
     int count_;
 
+    //Time window in which the number of completed requests is counted
     simtime_t timeWindow_;
 
+    //Storing the time of the last arrival of a request to the server
     simtime_t arrival_time_;
+
     simsignal_t interarrival_time_;
 
+    //Storing the time of the last arrival of a response from the server, for each client
     simtime_t *response_times_;
+
     simsignal_t response_time_;
 
     virtual void initialize();
