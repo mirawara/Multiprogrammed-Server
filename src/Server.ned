@@ -10,6 +10,7 @@ module Server
         //Probability that a disk access is required
         double p2;
 
+        @display("bgb=201,111");
     gates:
         input from_clients;
         input from_web_server;
@@ -18,8 +19,12 @@ module Server
 
     submodules:
         //The server is composed by a processor and a disk
-        processor: Processor;
-        disk: Disk;
+        processor: Processor {
+            @display("p=61,61");
+        }
+        disk: Disk {
+            @display("p=151,61");
+        }
     connections:
         //Connection between the Server's input gate (connected with the Client's output)
         //and the Processor's input gate

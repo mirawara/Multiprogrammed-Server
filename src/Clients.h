@@ -8,9 +8,6 @@ using namespace omnetpp;
 class Clients : public cSimpleModule {
 
 protected:
-    //simtime_t *last_request_time;
-    //simsignal_t service_rate_;
-
     //Number of Clients
     int num_clients_;
 

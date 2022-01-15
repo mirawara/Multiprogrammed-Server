@@ -92,7 +92,7 @@ void Processor::handleMessage(cMessage *msg) {
 
         //next_msg->setName("processing");
         //Exponential service rate => exponential(mean) (in Omnet++)
-        next_service_time_ = exponential(1 / service_rate_processor_);
+        next_service_time_ = exponential(1 / service_rate_processor_,0);
         emit(service_time_, next_service_time_);
         scheduleAt(simTime() + next_service_time_, next_msg);
     }
