@@ -3,7 +3,7 @@
 <p align="center"><img src="https://img.shields.io/badge/OMNeT++-5.6.2-1A2D33.svg?style=flat&amp;logo=omnet%2B%2B&amp;logoColor=white)](https://omnetpp.org/" alt="project-image"></p>
 
 <p align="center">
-    <img src="schema/schema.png" alt="App Icon">
+    <img src="schema/schema.png" alt="Schema">
 </p>
 
 
